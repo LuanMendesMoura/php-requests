@@ -3,29 +3,37 @@
 class HttpClient
 {
 
-    public function get(string $url): array
+    public function get(string $url)
     {
-        // Inicializa cURL
-        $handle = curl_init($url);
+        try {
+            if(empty($url)){
+                // print erro
+            }
 
-        // Define que queremos a resposta como string
-        curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
+            // Inicializa cURL
+            $handle = curl_init($url);
 
-        // Executa a requisição
-        $retorno = curl_exec($handle);
+            // Define que queremos a resposta como string
+            curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
 
-        // Fechando a conexão
-        curl_close($handle);
+            // Executa a requisição
+            $retorno = curl_exec($handle);
 
-        // Converte a resposta JSON em array associativo
-        return json_decode($retorno, true);
+            // Fechando a conexão
+            curl_close($handle);
+
+            // Converte a resposta JSON em array associativo
+            return json_decode($retorno, true);
+        } catch (Error $e) {
+            echo $e->getMessage();
+        }
     }
 
     public function post($url, $requestBody)
     {
 
         // Inicializa cURL
-        $handle = curl_init( $url);
+        $handle = curl_init($url);
 
         // Define como POST
         curl_setopt($handle, CURLOPT_POST, true);
